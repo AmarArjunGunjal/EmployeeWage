@@ -10,39 +10,43 @@ monthlyWage=0
 day=1
 emp_total_working_Hrs=0
 
-while [[ $day -le 20 && $emp_total_working_Hrs -le 100 ]]
-do
-empStatus=$((RANDOM%3))
+
+function get_emp_working_hrs()
+{
+	empStatus=$((RANDOM%3))
 	case $empStatus in
 
 	$FULL_TIME )
 
 			emp_working_hr=8
-			dailyWage=$(($EMP_WAGE_PER_HR*$emp_working_hr))
-			echo "Day_$day : "$dailyWage
-			monthlyWage=$(($monthlyWage+$dailyWage))
-
 	;;
 
 	$PART_TIME )
 
 			emp_working_hr=4
-			dailyWage=$(($EMP_WAGE_PER_HR*$emp_working_hr))
-			echo "Day_$day : "$dailyWage
-			monthlyWage=$(($monthlyWage+$dailyWage))
 	;;
 
 	* )
 			emp_working_hr=0
-			dailyWage=0
-			echo "Day_$day : "$dailyWage
 	;;
 
 	esac
 
-day=$(($day+1))
-emp_total_working_Hrs=$(($emp_total_working_Hrs+$emp_working_hr))
-done
+		dailyWage=$(($EMP_WAGE_PER_HR*$emp_working_hr))
+		echo $emp_working_hr
+}
 
-echo "Monthly Wage : "$monthlyWage
-echo "Total Hours :  "$emp_total_working_Hrs
+function main()
+{
+while [[ $day -le 20 && $emp_total_working_Hrs -le 100 ]]
+do
+	working_hour=$(get_emp_working_hrs)
+	day=$(($day+1))
+	emp_total_working_Hrs=$(($emp_total_working_Hrs+$working_hour))
+
+done
+	echo "Total Hours :  "$emp_total_working_Hrs
+
+}
+
+main
