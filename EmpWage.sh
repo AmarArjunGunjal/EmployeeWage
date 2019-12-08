@@ -32,20 +32,33 @@ function get_emp_working_hrs()
 
 	esac
 
-		dailyWage=$(($EMP_WAGE_PER_HR*$emp_working_hr))
 		echo $emp_working_hr
+}
+
+
+function getDailyEmpWage()
+{
+
+	dailyWage=$(( $EMP_WAGE_PER_HR * $1 ))
+	echo $dailyWage
 }
 
 function main()
 {
 while [[ $day -le 20 && $emp_total_working_Hrs -le 100 ]]
 do
+
 	working_hour=$(get_emp_working_hrs)
+	dailyEmpWage=$(getDailyEmpWage $working_hour)
+	dailyEmpWageArray[$day]=$dailyEmpWage
 	day=$(($day+1))
 	emp_total_working_Hrs=$(($emp_total_working_Hrs+$working_hour))
+	totalEmpWage=$(($EMP_WAGE_PER_HR * $emp_total_working_Hrs))
+	totalEmpWageArray[$day]=$totalEmpWage
 
 done
-	echo "Total Hours :  "$emp_total_working_Hrs
+	echo ${dailyEmpWageArray[@]}
+	echo ${totalEmpWageArray[@]}
 
 }
 
