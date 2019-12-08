@@ -36,21 +36,13 @@ function get_emp_working_hrs()
 		echo $emp_working_hr
 }
 
-
-function getDailyEmpWage()
-{
-
-	dailyWage=$(( $EMP_WAGE_PER_HR * $1 ))
-	echo $dailyWage
-}
-
 function main()
 {
 while [[ $day -le 20 && $emp_total_working_Hrs -le 100 ]]
 do
 
 	working_hour=$(get_emp_working_hrs)
-	dailyEmpWage=$(getDailyEmpWage $working_hour)
+	dailyEmpWage=$(( $working_hour*$EMP_WAGE_PER_HR ))
 	emp_total_working_Hrs=$(($emp_total_working_Hrs+$working_hour))
 	totalEmpWage=$(($EMP_WAGE_PER_HR * $emp_total_working_Hrs))
 	empDict[Day$day]="$dailyEmpWage      $totalEmpWage"
