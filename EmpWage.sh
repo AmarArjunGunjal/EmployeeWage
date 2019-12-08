@@ -10,6 +10,7 @@ monthlyWage=0
 day=1
 emp_total_working_Hrs=0
 
+declare -A empDict
 
 function get_emp_working_hrs()
 {
@@ -50,15 +51,17 @@ do
 
 	working_hour=$(get_emp_working_hrs)
 	dailyEmpWage=$(getDailyEmpWage $working_hour)
-	dailyEmpWageArray[$day]=$dailyEmpWage
-	day=$(($day+1))
 	emp_total_working_Hrs=$(($emp_total_working_Hrs+$working_hour))
 	totalEmpWage=$(($EMP_WAGE_PER_HR * $emp_total_working_Hrs))
-	totalEmpWageArray[$day]=$totalEmpWage
+	empDict[Day$day]="$dailyEmpWage      $totalEmpWage"
+	day=$(($day+1))
 
 done
-	echo ${dailyEmpWageArray[@]}
-	echo ${totalEmpWageArray[@]}
+
+	for(( i=1;i<$day;i++ ))
+	do
+		echo "Day $i		${empDict[Day$i]}"
+	done
 
 }
 
