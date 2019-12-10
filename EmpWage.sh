@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 echo "Welcome To The Employee Wage"
 
@@ -8,43 +8,41 @@ PART_TIME=1
 
 monthlyWage=0
 day=1
-emp_total_working_Hrs=0
+empTotalWorkingHrs=0
 
 declare -A empDict
 
-function get_emp_working_hrs()
+function getEmpWorkingHrs()
 {
-	empStatus=$((RANDOM%3))
-	case $empStatus in
+	case $1 in
 
 	$FULL_TIME )
 
-			emp_working_hr=8
+			echo 8
 	;;
 
 	$PART_TIME )
 
-			emp_working_hr=4
+			echo 4
 	;;
 
 	* )
-			emp_working_hr=0
+			echo 0
 	;;
 
 	esac
 
-		echo $emp_working_hr
 }
 
 function main()
 {
-while [[ $day -le 20 && $emp_total_working_Hrs -le 100 ]]
+while [[ $day -le 20 && $empTotalWorkingHrs -le 100 ]]
 do
-
-	working_hour=$(get_emp_working_hrs)
-	dailyEmpWage=$(( $working_hour*$EMP_WAGE_PER_HR ))
-	emp_total_working_Hrs=$(($emp_total_working_Hrs+$working_hour))
-	totalEmpWage=$(($EMP_WAGE_PER_HR * $emp_total_working_Hrs))
+	empStatus=$((RANDOM%3))
+	workingHour=$(getEmpWorkingHrs $empStatus)
+	dailyEmpWage=$(( $workingHour*$EMP_WAGE_PER_HR ))
+	empTotalWorkingHrs=$(($empTotalWorkingHrs+$workingHour))
+	totalEmpWage=$(($EMP_WAGE_PER_HR * $empTotalWorkingHrs))
 	empDict[Day$day]="$dailyEmpWage      $totalEmpWage"
 	day=$(($day+1))
 
